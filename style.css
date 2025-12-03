@@ -47,7 +47,7 @@ section{
 
 .btn{
   display: inline-block;
-  padding:.8rem 3rem;
+  padding:1rem 2.5rem;
   border:.2rem solid var(--red);
   color:var(--red);
   cursor: pointer;
@@ -57,6 +57,9 @@ section{
   overflow: hidden;
   z-index: 0;
   margin-top: 1rem;
+  font-weight: 600;
+  transition: all .3s ease;
+  white-space: nowrap;
 }
 
 .btn::before{
@@ -77,6 +80,8 @@ section{
 
 .btn:hover{
   color:#fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(104, 139, 233, 0.3);
 }
 
 header{
@@ -85,7 +90,8 @@ header{
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 2rem;
   background:#fff;
   padding:2rem 9%;
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
@@ -102,9 +108,15 @@ header .logo i{
   color:var(--red);
 }
 
+header .navbar{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 header .navbar a{
   font-size: 2rem;
-  margin-left: 2rem;
   color:#666;
 }
 
@@ -120,6 +132,70 @@ header .navbar a:hover{
   border-radius: .3rem;
   padding:.5rem 1.5rem;
   display: none;
+  margin-left: auto;
+}
+
+/* Cart icon inside header (keeps it in flow so it doesn't overlap nav/menu) */
+#cart-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--red);
+  color:#fff;
+  width:4.2rem;
+  height:4.2rem;
+  border-radius:50%;
+  margin-left:1rem;
+  font-size:1.6rem;
+  cursor:pointer;
+  position:relative;
+  z-index:1100;
+}
+#cart-icon i{ pointer-events:none; }
+#cart-icon #cart-count{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  background:#fff;
+  color:var(--red);
+  width:1.6rem;
+  height:1.6rem;
+  border-radius:50%;
+  font-size:1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Cart panel */
+#cart-panel{
+  position: fixed;
+  right: 2rem;
+  top: 6rem;
+  width:320px;
+  max-height:70vh;
+  background:#fff;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.2);
+  border-radius: .6rem;
+  overflow:auto;
+  z-index:1199;
+  padding:1rem;
+}
+.cart-closed{ display:none; }
+.cart-open{ display:block; }
+.cart-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.8rem; }
+.cart-item{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; padding:.6rem 0; border-bottom:1px solid #eee; }
+.cart-item-left strong{ display:block; font-size:1.4rem; color:#333; }
+.cart-item-right button{ margin-left:.4rem; padding:.3rem .6rem; border-radius:.3rem; }
+.cart-footer{ margin-top:.8rem; display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.cart-actions button{ margin-left:.4rem; }
+.empty{ padding:1rem; color:#666; }
+
+.add-to-cart{ margin-top: .8rem; }
+
+@media (max-width: 420px){
+  /* hide separate cart icon on very small screens to avoid overlap with menu */
+  #cart-icon{ display:none; }
 }
 
 .home{
@@ -265,6 +341,20 @@ header .navbar a:hover{
   color:gold;
   font-size: 1.7rem;
   padding:1rem .1rem;
+}
+
+.popular .box-container .box .btn{
+  display: block;
+  width: 90%;
+  margin: 0.8rem auto 0 auto;
+  text-align: center;
+}
+
+.add-to-cart{
+  display: block;
+  width: 90%;
+  margin: 0.8rem auto 0 auto !important;
+  text-align: center;
 }
 
 .steps{
@@ -435,6 +525,8 @@ header .navbar a:hover{
 
 .order .row form .btn{
   background:none;
+  width: 100%;
+  padding:1.2rem 2.5rem;
 }
 
 .order .row form .btn:hover{
@@ -528,6 +620,37 @@ header .navbar a:hover{
 
 }
 
+@media(max-width:768px){
+  .popular .box-container .box{
+    padding:1.5rem;
+  }
+
+  .popular .box-container .box .btn,
+  .add-to-cart{
+    font-size: 1.5rem;
+    padding: 0.9rem 2rem;
+  }
+}
+
+@media(max-width:500px){
+  .btn{
+    font-size: 1.5rem;
+    padding: 0.9rem 2rem;
+    margin-top: 0.8rem;
+  }
+
+  .popular .box-container .box .btn,
+  .add-to-cart{
+    font-size: 1.4rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .order .row form .btn{
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+  }
+}
+
 @media(max-width:450px){
 
   html{
@@ -536,6 +659,17 @@ header .navbar a:hover{
 
   .order .row form .inputBox input{
     width:100%;
+  }
+
+  .btn{
+    font-size: 1.4rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .popular .box-container .box .btn,
+  .add-to-cart{
+    font-size: 1.3rem;
+    padding: 0.7rem 1.2rem;
   }
 
 }
