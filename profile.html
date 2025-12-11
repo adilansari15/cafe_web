@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile - Cozy Café</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-container{ max-width:900px; margin:8rem auto 4rem; background:#fff; padding:2.4rem; border-radius:.8rem; box-shadow:0 .6rem 1.6rem rgba(0,0,0,.06);} 
+    .profile-header{ display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .profile-info{ font-size:1.6rem; }
+    .profile-cart{ margin-top:1.6rem; }
+    .cart-item-row{ display:flex; justify-content:space-between; gap:1rem; padding:.8rem 0; border-bottom:1px solid #eee; }
+    .muted{ color:#666; font-size:1.3rem; }
+    .btn-logout{ background:var(--red); color:#fff; padding:.7rem 1.1rem; border-radius:.4rem; font-weight:600; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo"><i class="fas fa-coffee"></i>Cozy Café</a>
+    <nav class="navbar">
+      <a href="index.html">home</a>
+      <a href="auth.html" class="btn-auth">Login / Sign Up</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="profile-container">
+      <div class="profile-header">
+        <div>
+          <h2>Your Profile</h2>
+          <div class="profile-info" id="profile-info"></div>
+        </div>
+        <div>
+          <button id="logout-profile" class="btn-logout">Logout</button>
+        </div>
+      </div>
+
+      <div class="profile-cart">
+        <h3>Your Cart</h3>
+        <div id="profile-cart-items"></div>
+        <p class="muted" id="profile-cart-empty">No items in your cart.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="profile.js"></script>
+</body>
+</html>

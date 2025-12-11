@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - Cafe Web</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+        }
+
+        .auth-tab:hover {
+            background: rgba(102, 126, 234, 0.05);
+            color: #667eea;
+        }
+
+        .auth-content {
+            padding: 35px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 12px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #f5c6cb;
+            animation: slideDown 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #c3e6cb;
+            animation: slideDown 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            gap: 12px;
+        }
+
+        .back-home i {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 500px) {
+            .auth-container {
+                max-width: 100%;
+                border-radius: 10px;
+            }
+
+            .auth-header {
+                padding: 30px 15px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .auth-content {
+                padding: 25px 20px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .btn-submit {
+                padding: 11px 18px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .auth-header {
+                padding: 25px 12px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .auth-header p {
+                font-size: 0.85rem;
+            }
+
+            .auth-content {
+                padding: 20px 15px;
+            }
+
+            .auth-tab {
+                padding: 14px;
+                font-size: 0.9rem;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group label {
+                font-size: 0.85rem;
+                margin-bottom: 6px;
+            }
+
+            .form-group input {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .btn-submit {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .back-home {
+                top: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-home">
+        <i class="fas fa-arrow-left"></i> Back Home
+    </a>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>☕ Cafe Web</h1>
+            <p>Your favorite coffee, online</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-form="login">Login</button>
+            <button class="auth-tab" data-form="signup">Sign Up</button>
+        </div>
+
+        <div class="auth-content">
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="error-message" id="login-error"></div>
+                <div class="success-message" id="login-success"></div>
+
+                <div class="form-group">
+                    <label for="login-identifier">Email or Username</label>
+                    <input type="text" id="login-identifier" name="identifier" placeholder="Enter your email or username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="loading" id="login-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Logging in...
+                </div>
+
+                <button type="submit" class="btn-submit" id="login-btn">Login</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="error-message" id="signup-error"></div>
+                <div class="success-message" id="signup-success"></div>
+
+                <div class="form-group">
+                    <label for="signup-username">Choose a Username</label>
+                    <input type="text" id="signup-username" name="username" placeholder="Choose a unique username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" name="confirm" placeholder="Confirm your password" required>
+                </div>
+
+                <div class="loading" id="signup-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Creating account...
+                </div>
+
+                <button type="submit" class="btn-submit" id="signup-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth-page.js"></script>
+</body>
+</html>

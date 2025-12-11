@@ -20,13 +20,22 @@
 
     <a href="#" class="logo"><i class="fas fa-coffee"></i>Cozy Café</a>
     
-    <div id="menu-bar" class="fas fa-bars"></div>
+        <div id="menu-bar" class="fas fa-bars"></div>
         <div id="cart-icon" title="View cart">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
         </div>
-
-    <nav class="navbar">
+        <!-- Auth/profile icon placed beside cart -->
+        <button id="auth-icon" class="btn-auth" title="Account">
+            <!-- simple user/profile SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" stroke="#fff" stroke-width="0" fill="#fff" opacity="0"/>
+                <path d="M12 12c3.866 0 7 3.134 7 7v1H5v-1c0-3.866 3.134-7 7-7z" fill="#ffffff" opacity="0"/>
+                <circle cx="12" cy="8" r="3.2" fill="#667eea" />
+                <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" fill="#667eea" />
+            </svg>
+        </button>
+        <nav class="navbar">
         <a href="#home">home</a>
         <a href="#speciality">speciality</a>
         <a href="#popular">popular</a>
