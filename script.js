@@ -120,8 +120,11 @@ function updateAuthUI(){
 function logoutCurrentUser(){
   const user = getAuthUser();
   if(user && user._id){
-    // clear user-specific cart from localStorage (user requested behavior)
-    try{ localStorage.removeItem(`cart_${user._id}`); }catch(e){}
+    // Keep the user's cart stored under `cart_<userId>` so it persists across
+    // logins. Clear the guest cart so the guest view is empty after logout.
+    try{
+      localStorage.setItem(GUEST_CART_KEY, JSON.stringify([]));
+    }catch(e){ console.error('logoutCurrentUser error', e); }
   }
   // remove auth tokens
   localStorage.removeItem('token');
